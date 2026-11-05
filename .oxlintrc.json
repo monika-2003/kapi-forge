@@ -1,0 +1,49 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "oxc", "jsx-a11y", "import"],
+  "categories": {
+    "correctness": "error"
+  },
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/exhaustive-deps": "warn",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }],
+    "typescript/no-explicit-any": "error",
+    "typescript/consistent-type-imports": "error",
+    "import/no-cycle": "error",
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "cn",
+            "message": "Import cn from '@/lib/utils' (configured for custom tokens)."
+          },
+          {
+            "name": "motion/react",
+            "importNames": ["motion"],
+            "message": "Use `import * as m from 'motion/react-m'` (LazyMotion strict mode)."
+          },
+          { "name": "framer-motion", "message": "Import from 'motion/react'." },
+          { "name": "gsap", "message": "Import from '@/lib/gsap'." },
+          { "name": "gsap/ScrollTrigger", "message": "Import from '@/lib/gsap'." },
+          { "name": "@gsap/react", "message": "Import from '@/lib/gsap'." },
+          { "name": "clsx", "message": "Use cn from '@/lib/utils'." },
+          { "name": "tailwind-merge", "message": "Use cn from '@/lib/utils'." }
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["src/root.tsx", "src/routes/**/*.tsx", "src/components/ui/**/*.tsx"],
+      "rules": { "react/only-export-components": "off" }
+    },
+    {
+      "files": ["src/lib/utils.ts", "src/lib/gsap.ts"],
+      "rules": { "no-restricted-imports": "off" }
+    }
+  ],
+  "ignorePatterns": ["build", ".react-router", "node_modules"]
+}

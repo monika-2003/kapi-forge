@@ -1,0 +1,34 @@
+---
+description: Kapi Forge project rule. Read CURSOR.md before changing code; preserve architecture, reuse components, keep changes minimal, run checks.
+alwaysApply: true
+---
+
+# Kapi Forge — project rule
+
+**Before modifying any code, read `CURSOR.md` at the repository root and follow it.** It is the source of truth. Read the relevant `docs/` file before working in its area:
+
+- Routing, service pages, quote wizard, folder responsibilities: `docs/architecture.md`
+- Colours, typography, spacing, components, motion tokens: `docs/design-system.md`
+- Anything touching network, files or the future API: `docs/future-backend-integration.md`
+
+## Always
+
+- **Preserve the architecture.** Put code in the folder `CURSOR.md` §3 assigns. Keep route modules thin. Respect the dependency direction (`routes → features → components → lib/config/content`; features never import other features).
+- **Reuse before creating.** Search `src/components/`, `src/lib/`, `src/hooks/` and the feature folder first. All five service pages use the shared `routes/service.tsx` + `ServicePage` template driven by `src/content/services.ts`.
+- **Make the minimal change** that solves the task. No speculative abstractions, placeholder files or empty folders.
+- **No new dependencies** unless the task cannot be done with the stack in `CURSOR.md` §2. If one is truly needed, justify it and add it to §2.
+- **Keep it SSR-safe.** Pages are pre-rendered in Node: no `window`/`document`/storage access during render or at module top level.
+- **Use tokens.** Semantic Tailwind utilities only; no raw hex values. `cn` from `@/lib/utils`, GSAP from `@/lib/gsap`, Motion via `m` from `motion/react-m`.
+- **Content integrity.** Never invent testimonials, statistics, clients, credentials, prices or contact details. Business facts come from `src/config/site.ts` and `src/content/`; `null` means hidden.
+- **Honest enquiries.** Release 1 has no backend. Never show "submitted" / "received", never fake a request. Enquiries hand off to email/WhatsApp via `src/api/enquiries/`.
+- **No dead UI.** Every button and link must work, or not be rendered.
+
+## After every change
+
+1. Run `npm run check` (typecheck, lint, format check, tests, build) and fix failures.
+2. Add or update tests for changed logic (schemas, spec registry, summary, handoff links, helpers).
+3. For UI changes, verify in a browser at mobile and desktop widths, with keyboard only and with reduced motion.
+
+## When decisions change
+
+If you change an architectural decision, convention, dependency or token, update `CURSOR.md` and the affected `docs/` file **in the same change**. Do not leave the docs describing something the code no longer does.

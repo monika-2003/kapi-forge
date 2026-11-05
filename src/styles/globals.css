@@ -1,0 +1,275 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/sora';
+
+/* No dark theme in Release 1. Without this, shadcn `dark:` classes follow the OS setting. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Variants used by generated shadcn (radix-nova) primitives; mirrors `shadcn/tailwind.css`. */
+@custom-variant data-open (&:where([data-state='open']));
+@custom-variant data-closed (&:where([data-state='closed']));
+@custom-variant data-checked (&:where([data-state='checked']));
+@custom-variant data-unchecked (&:where([data-state='unchecked']));
+
+/*
+ * Kapi Forge design tokens. See docs/design-system.md before changing anything here.
+ * Raw values live in :root, Tailwind utilities are generated from @theme.
+ * Semantic names follow shadcn/ui conventions so generated components work unmodified.
+ */
+
+:root {
+  /* Brand palette */
+  --ink: #101820;
+  --brand-orange: #ff6b35;
+  --paper: #f5f3ef;
+  --mist: #dce5e8;
+  --charcoal: #202020;
+
+  /* Semantic tokens (light surface, the default) */
+  --background: var(--paper);
+  --foreground: var(--charcoal);
+  --card: #ffffff;
+  --card-foreground: var(--charcoal);
+  --popover: #ffffff;
+  --popover-foreground: var(--charcoal);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--mist);
+  --secondary-foreground: var(--ink);
+  --muted: #ebe8e2;
+  /* Brand muted #6B7280 is 4.4:1 on paper (fails WCAG AA); this is 5.2:1. */
+  --muted-foreground: #5f6673;
+  /* shadcn "accent" is the subtle hover surface, not the brand orange. */
+  --accent: var(--mist);
+  --accent-foreground: var(--ink);
+  --brand: var(--brand-orange);
+  /* Orange is 2.6:1 on paper; text and focus rings on light surfaces use brand-strong (4.9:1). */
+  --brand-foreground: var(--ink);
+  --brand-strong: #b3431b;
+  --destructive: #b42318;
+  --success: #1f7a4d;
+  --border: #e5e7eb;
+  /* Form field boundaries need 3:1 against the background (WCAG 1.4.11). */
+  --input: #7a828c;
+  --ring: var(--brand-strong);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-strong: var(--brand-strong);
+  --color-destructive: var(--destructive);
+  --color-success: var(--success);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-mist: var(--mist);
+
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Sora Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+}
+
+@theme {
+  /* Fluid type scale. Body sizes use Tailwind defaults (text-sm, text-base, text-lg). */
+  --text-display: clamp(2.5rem, 1.5rem + 4.4vw, 5rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.035em;
+  --text-h1: clamp(2.25rem, 1.5rem + 3.2vw, 4rem);
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h2: clamp(1.75rem, 1.3rem + 2vw, 2.75rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h3: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.01em;
+  --text-h4: 1.25rem;
+  --text-h4--line-height: 1.3;
+  --text-lead: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --text-lead--line-height: 1.5;
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.14em;
+
+  /* Layout rhythm: py-section, px-gutter, gap-gutter */
+  --spacing-section: clamp(4rem, 2.5rem + 6vw, 8rem);
+  --spacing-gutter: clamp(1.25rem, 0.75rem + 2vw, 2.5rem);
+
+  /* max-w-site, max-w-narrow, max-w-prose-tight */
+  --container-site: 80rem;
+  --container-narrow: 56rem;
+  --container-prose-tight: 42rem;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.625rem;
+  --radius-xl: 1rem;
+
+  --shadow-card: 0 1px 2px rgb(16 24 32 / 0.04), 0 8px 24px -12px rgb(16 24 32 / 0.12);
+  --shadow-raised: 0 2px 4px rgb(16 24 32 / 0.04), 0 24px 48px -24px rgb(16 24 32 / 0.28);
+
+  /* Keep in sync with src/lib/motion.ts */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* Hero entrance: plain CSS so content is painted without waiting for JS. */
+  --animate-rise: rise 0.9s var(--ease-out-expo) both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  --animate-accordion-down: accordion-down 0.3s var(--ease-out-expo);
+  --animate-accordion-up: accordion-up 0.3s var(--ease-out-expo);
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+/* Dark section: re-scopes the semantic tokens, so every utility inside adapts. */
+@utility surface-dark {
+  --background: var(--ink);
+  --foreground: var(--paper);
+  --card: #18232d;
+  --card-foreground: var(--paper);
+  --muted: #1c2832;
+  --muted-foreground: #a3adb8;
+  --border: rgb(245 243 239 / 0.14);
+  --input: rgb(245 243 239 / 0.45);
+  --ring: var(--brand-orange);
+  --primary: var(--paper);
+  --primary-foreground: var(--ink);
+  --brand-strong: var(--brand-orange);
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Faint drafting-paper grid for dark hero sections. */
+@utility blueprint-grid {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in oklab, var(--foreground) 6%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--foreground) 6%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 56px 56px;
+}
+
+@utility eyebrow {
+  font-size: var(--text-eyebrow);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  *,
+  ::before,
+  ::after {
+    @apply border-border;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: var(--brand-orange);
+    color: var(--ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+      animation: none !important;
+    }
+  }
+}
+
+/* Route change cross-fade (React <ViewTransition> in the site layout). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 200ms;
+  animation-timing-function: var(--ease-out-expo);
+}
